@@ -11,22 +11,35 @@ function scrollTo(selector) {
 }
 
 // Handle signup form submission
+const API_BASE = 'https://smokestacksite.outlawsmokevape.com';
+
 function handleSignup(event) {
     event.preventDefault();
-    
+
     const shopName = document.getElementById('shopName').value;
     const email = document.getElementById('email').value;
-    
-    // For now, just show success message and redirect
-    // In production, this would call your backend API
-    
-    alert(`Welcome, ${shopName}!\n\nCheck your email at ${email} to get started.\n\nYou have 14 days free.`);
-    
-    // Redirect to API register endpoint (simulated)
-    // window.location.href = `https://api.smokestack.io/auth/register?name=${encodeURIComponent(shopName)}&email=${encodeURIComponent(email)}`;
-    
-    // Clear form
-    document.getElementById('signupForm').reset();
+
+    const url = `${API_BASE}/auth/register`
+        + `?name=${encodeURIComponent(shopName)}`
+        + `&email=${encodeURIComponent(email)}`;
+
+    fetch(url, { method: 'POST' })
+        .then(async (r) => {
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) {
+                throw new Error(data.detail || `Signup failed (${r.status})`);
+            }
+            return data;
+        })
+        .then((data) => {
+            alert(
+                `Welcome, ${shopName}!\n\n`
+                + `Your API key:\n${data.api_key}\n\n`
+                + `Save this key — you'll use it in the X-API-Key header.`
+            );
+            document.getElementById('signupForm').reset();
+        })
+        .catch((err) => alert(`Error: ${err.message}`));
 }
 
 // Navigate to pricing

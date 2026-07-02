@@ -12,34 +12,92 @@ function scrollTo(selector) {
 
 // Handle signup form submission
 const API_BASE = 'https://smokestacksite.outlawsmokevape.com';
+const ORDER_EMAIL = 'rogueintelligenceso@gmail.com';
+
+function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function checked(id) { var el = document.getElementById(id); return !!(el && el.checked); }
+
+// Compose the site-build order as an email to the shop owner (same "send the
+// order to the owner" checkout the smoke shop uses — email flavor).
+function composeOrderEmail(p) {
+    var lines = [
+        'NEW BACKROOM SITE-BUILD REQUEST',
+        '',
+        'Shop: ' + p.shop_name,
+        'Owner: ' + (p.owner_name || '-'),
+        'Email: ' + p.contact_email,
+        'Phone: ' + (p.phone || '-'),
+        'Location: ' + (p.location || '-'),
+        'Current site: ' + (p.current_website || '-'),
+        '',
+        'Products: ' + (p.products_sold || '-'),
+        'Catalog size: ' + (p.catalog_size || '-'),
+        'Fulfillment: ' + (p.fulfillment || '-'),
+        'Sells nicotine/tobacco: ' + (p.sells_nicotine ? 'YES (21+ age gate)' : 'no'),
+        'Wants online ordering: ' + (p.needs_online_ordering ? 'YES' : 'catalog only'),
+        '',
+        'Brand vibe: ' + (p.brand_vibe || '-'),
+        'Domain: ' + (p.domain || '-'),
+        'Notes: ' + (p.notes || '-'),
+        '',
+        'API key issued: ' + (p.api_key || '(pending)'),
+        'Request ID: ' + (p.request_id || '-')
+    ];
+    var subject = 'Backroom build request — ' + p.shop_name;
+    var href = 'mailto:' + ORDER_EMAIL
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(lines.join('\n'));
+    window.location.href = href;
+}
 
 function handleSignup(event) {
     event.preventDefault();
 
-    const shopName = document.getElementById('shopName').value;
-    const email = document.getElementById('email').value;
+    var payload = {
+        shop_name: val('shopName'),
+        contact_email: val('email'),
+        owner_name: val('ownerName'),
+        phone: val('phone'),
+        location: val('location'),
+        current_website: val('currentWebsite'),
+        products_sold: val('productsSold'),
+        catalog_size: val('catalogSize'),
+        fulfillment: val('fulfillment'),
+        sells_nicotine: checked('sellsNicotine'),
+        needs_online_ordering: checked('needsOnlineOrdering'),
+        brand_vibe: val('brandVibe'),
+        domain: val('domain'),
+        notes: val('notes')
+    };
 
-    const url = `${API_BASE}/auth/register`
-        + `?name=${encodeURIComponent(shopName)}`
-        + `&email=${encodeURIComponent(email)}`;
+    var btn = event.target.querySelector('button[type="submit"]');
+    if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
 
-    fetch(url, { method: 'POST' })
-        .then(async (r) => {
-            const data = await r.json().catch(() => ({}));
-            if (!r.ok) {
-                throw new Error(data.detail || `Signup failed (${r.status})`);
-            }
+    fetch(API_BASE + '/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+        .then(async function (r) {
+            var data = await r.json().catch(function () { return {}; });
+            if (!r.ok) { throw new Error(data.detail || ('Signup failed (' + r.status + ')')); }
             return data;
         })
-        .then((data) => {
+        .then(function (data) {
+            // Send the order to the owner's inbox, then confirm to the shop.
+            composeOrderEmail(Object.assign({}, payload, data));
             alert(
-                `Welcome, ${shopName}!\n\n`
-                + `Your API key:\n${data.api_key}\n\n`
-                + `Save this key — you'll use it in the X-API-Key header.`
+                'Thanks, ' + payload.shop_name + '!\n\n'
+                + 'Your API key:\n' + data.api_key + '\n\n'
+                + 'Save this key — you\'ll use it in the X-API-Key header.\n\n'
+                + 'Your email app just opened with your build request — hit send and we\'ll get started.'
             );
             document.getElementById('signupForm').reset();
         })
-        .catch((err) => alert(`Error: ${err.message}`));
+        .catch(function (err) { alert('Error: ' + err.message); })
+        .finally(function () {
+            if (btn) { btn.disabled = false; btn.textContent = 'Submit & Get My API Key'; }
+        });
 }
 
 // Navigate to pricing

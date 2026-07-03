@@ -229,6 +229,18 @@ a:hover { color: var(--red-bright); }
 .form-section-label { grid-column: 1 / -1; font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: var(--gold); border-bottom: 1px solid var(--line); padding-bottom: .4rem; margin-top: .4rem; }
 .form-note { text-align: center; font-size: .875rem; color: var(--muted); margin: 0; }
 
+/* Signup success confirmation */
+.signup-success { text-align: center; padding: var(--spacing-md) 0; }
+.success-check { width: 64px; height: 64px; margin: 0 auto var(--spacing-md); border-radius: 50%; background: var(--gold); color: #14110a; font-size: 2rem; font-weight: 900; display: flex; align-items: center; justify-content: center; }
+.signup-success h3 { color: #fff; margin-bottom: var(--spacing-sm); }
+.signup-success p { color: var(--muted); }
+.signup-success strong { color: var(--gold); }
+.apikey-box { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; justify-content: center; background: #0e0e12; border: 1px solid var(--line-gold); border-radius: 8px; padding: var(--spacing-md); margin: var(--spacing-md) 0; }
+.apikey-label { width: 100%; font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--gold); }
+.apikey-box code { font-family: var(--font-mono); color: #fff; font-size: 1rem; word-break: break-all; }
+.apikey-copy { padding: .4rem 1rem; font-size: .85rem; }
+.signup-success code { font-family: var(--font-mono); color: var(--gold); }
+
 .cta-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-xl); margin-top: var(--spacing-2xl); }
 .cta-feature { text-align: center; }
 .cta-feature .icon { font-size: 2rem; display: block; margin-bottom: var(--spacing-md); }

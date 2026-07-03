@@ -12,42 +12,36 @@ function scrollTo(selector) {
 
 // Handle signup form submission
 const API_BASE = 'https://smokestacksite.outlawsmokevape.com';
-const ORDER_EMAIL = 'rogueintelligenceso@gmail.com';
 
 function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
 function checked(id) { var el = document.getElementById(id); return !!(el && el.checked); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
-// Compose the site-build order as an email to the shop owner (same "send the
-// order to the owner" checkout the smoke shop uses — email flavor).
-function composeOrderEmail(p) {
-    var lines = [
-        'NEW BACKROOM SITE-BUILD REQUEST',
-        '',
-        'Shop: ' + p.shop_name,
-        'Owner: ' + (p.owner_name || '-'),
-        'Email: ' + p.contact_email,
-        'Phone: ' + (p.phone || '-'),
-        'Location: ' + (p.location || '-'),
-        'Current site: ' + (p.current_website || '-'),
-        '',
-        'Products: ' + (p.products_sold || '-'),
-        'Catalog size: ' + (p.catalog_size || '-'),
-        'Fulfillment: ' + (p.fulfillment || '-'),
-        'Sells nicotine/tobacco: ' + (p.sells_nicotine ? 'YES (21+ age gate)' : 'no'),
-        'Wants online ordering: ' + (p.needs_online_ordering ? 'YES' : 'catalog only'),
-        '',
-        'Brand vibe: ' + (p.brand_vibe || '-'),
-        'Domain: ' + (p.domain || '-'),
-        'Notes: ' + (p.notes || '-'),
-        '',
-        'API key issued: ' + (p.api_key || '(pending)'),
-        'Request ID: ' + (p.request_id || '-')
-    ];
-    var subject = 'Backroom build request — ' + p.shop_name;
-    var href = 'mailto:' + ORDER_EMAIL
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(lines.join('\n'));
-    window.location.href = href;
+// Replace the form with a clean in-page confirmation (no browser alert boxes).
+function showConfirmation(shopName, email, apiKey) {
+    var form = document.getElementById('signupForm');
+    if (!form) return;
+    form.innerHTML =
+        '<div class="signup-success">'
+        + '<div class="success-check">&#10003;</div>'
+        + '<h3>You\'re in, ' + esc(shopName) + '.</h3>'
+        + '<p>We\'ve got your build request. We\'ll email <strong>' + esc(email) + '</strong> to kick things off.</p>'
+        + '<div class="apikey-box">'
+        + '<span class="apikey-label">Your API key &mdash; save this</span>'
+        + '<code id="apiKeyValue">' + esc(apiKey) + '</code>'
+        + '<button type="button" class="btn btn-outline apikey-copy" onclick="copyApiKey()">Copy</button>'
+        + '</div>'
+        + '<p class="form-note">Use it in the <code>X-API-Key</code> header when your site talks to Backroom.</p>'
+        + '</div>';
+}
+
+function copyApiKey() {
+    var el = document.getElementById('apiKeyValue');
+    if (!el) return;
+    var text = el.textContent;
+    var done = function () { var b = document.querySelector('.apikey-copy'); if (b) { b.textContent = 'Copied!'; setTimeout(function () { b.textContent = 'Copy'; }, 1500); } };
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, done); }
+    else { done(); }
 }
 
 function handleSignup(event) {
@@ -84,19 +78,12 @@ function handleSignup(event) {
             return data;
         })
         .then(function (data) {
-            // Send the order to the owner's inbox, then confirm to the shop.
-            composeOrderEmail(Object.assign({}, payload, data));
-            alert(
-                'Thanks, ' + payload.shop_name + '!\n\n'
-                + 'Your API key:\n' + data.api_key + '\n\n'
-                + 'Save this key — you\'ll use it in the X-API-Key header.\n\n'
-                + 'Your email app just opened with your build request — hit send and we\'ll get started.'
-            );
-            document.getElementById('signupForm').reset();
+            showConfirmation(payload.shop_name, payload.contact_email, data.api_key);
         })
-        .catch(function (err) { alert('Error: ' + err.message); })
-        .finally(function () {
+        .catch(function (err) {
             if (btn) { btn.disabled = false; btn.textContent = 'Submit & Get My API Key'; }
+            var note = document.querySelector('#signupForm .form-note');
+            if (note) { note.textContent = 'Something went wrong: ' + err.message + '. Please try again.'; note.style.color = '#e11d2a'; }
         });
 }
 
@@ -255,7 +242,7 @@ document.head.appendChild(style);
 document.addEventListener('keydown', (e) => {
     // Press ? to show help
     if (e.key === '?') {
-        alert('SmokeStack Keyboard Shortcuts:\n\n' +
+        alert('Backroom Keyboard Shortcuts:\n\n' +
               '? - Show this help\n' +
               's - Scroll to signup\n' +
               'p - Scroll to pricing\n' +
@@ -279,6 +266,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-console.log('%cSmokeStack', 'font-size:20px; font-weight:bold; color:#ff6b35;');
-console.log('%cInventory API for Alternative Retail', 'font-size:14px; color:#666;');
+console.log('%cBackroom', 'font-size:20px; font-weight:bold; color:#d4af37;');
+console.log('%cThe back-office behind your counter', 'font-size:14px; color:#c1121f;');
 console.log('%cPress ? for keyboard shortcuts', 'font-size:12px; color:#999;');

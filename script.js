@@ -1,5 +1,5 @@
 // ============================================
-// SMOKESTACK LANDING PAGE - JAVASCRIPT
+// BACKROOM LANDING PAGE - JAVASCRIPT
 // ============================================
 
 // Scroll to section
@@ -87,19 +87,9 @@ function handleSignup(event) {
         });
 }
 
-// Navigate to pricing
-function goToPricing() {
-    window.location.href = 'https://app.smokestack.io/signup?plan=pro';
-}
-
-// Start free tier
-function startFree() {
-    window.location.href = 'https://app.smokestack.io/signup?plan=free';
-}
-
 // Contact sales
 function contactSales() {
-    window.location.href = 'mailto:sales@smokestack.io?subject=Enterprise%20Plan%20Inquiry';
+    window.location.href = 'mailto:rogueintelligenceso@gmail.com?subject=Backroom%20Multi-Location%20Inquiry';
 }
 
 // Add scroll animation for elements
@@ -178,13 +168,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Mobile menu toggle (for future navbar enhancement)
+// Mobile menu toggle
 function toggleMobileMenu() {
     const navMenu = document.querySelector('.nav-menu');
+    const toggle = document.querySelector('.nav-toggle');
     if (navMenu) {
-        navMenu.classList.toggle('active');
+        const open = navMenu.classList.toggle('open');
+        if (toggle) { toggle.setAttribute('aria-expanded', open ? 'true' : 'false'); }
     }
 }
+
+// Close the mobile menu after tapping a link
+document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+        const navMenu = document.querySelector('.nav-menu');
+        const toggle = document.querySelector('.nav-toggle');
+        if (navMenu) { navMenu.classList.remove('open'); }
+        if (toggle) { toggle.setAttribute('aria-expanded', 'false'); }
+    });
+});
 
 // Smooth scroll for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

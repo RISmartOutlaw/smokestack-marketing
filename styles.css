@@ -99,6 +99,8 @@ a:hover { color: var(--red-bright); }
 .nav-menu { display: flex; list-style: none; gap: var(--spacing-lg); align-items: center; }
 .nav-menu a { color: var(--text); font-weight: 500; }
 .nav-menu a:hover { color: var(--gold); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: .5rem; }
+.nav-toggle span { display: block; width: 24px; height: 3px; background: var(--gold); margin: 5px 0; border-radius: 2px; transition: all .25s ease; }
 
 /* Hero */
 .hero {
@@ -263,8 +265,19 @@ a:hover { color: var(--red-bright); }
 @media (max-width: 768px) {
     .container { padding: 0 var(--spacing-md); }
     .navbar .container { padding: var(--spacing-md); }
-    .nav-menu { gap: var(--spacing-sm); }
-    .nav-menu a { font-size: .85rem; }
+    .nav-toggle { display: block; }
+    .nav-menu {
+        display: none;
+        position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 0;
+        background: rgba(11,11,13,.97); border-bottom: 1px solid var(--line);
+        padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+    }
+    .nav-menu.open { display: flex; }
+    .nav-menu li { border-bottom: 1px solid var(--line); }
+    .nav-menu li:last-child { border-bottom: none; padding-top: var(--spacing-sm); }
+    .nav-menu a { display: block; padding: .85rem .25rem; font-size: 1rem; }
+    .nav-menu .btn-nav { text-align: center; border-radius: 6px; }
     .hero-cta { flex-direction: column; }
     .btn { width: 100%; }
     .form-row { grid-template-columns: 1fr; }
@@ -274,7 +287,6 @@ a:hover { color: var(--red-bright); }
     h1 { font-size: 1.85rem; }
     h2 { font-size: 1.5rem; }
     .hero-stats { grid-template-columns: 1fr; }
-    .nav-menu { flex-wrap: wrap; }
 }
 
 /* Animations */

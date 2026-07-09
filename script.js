@@ -240,8 +240,13 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Keyboard shortcuts
+// Keyboard shortcuts (ignored while typing in a form field)
 document.addEventListener('keydown', (e) => {
+    const t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) {
+        return;
+    }
+
     // Press ? to show help
     if (e.key === '?') {
         alert('Backroom Keyboard Shortcuts:\n\n' +

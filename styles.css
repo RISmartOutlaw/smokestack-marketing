@@ -199,8 +199,18 @@ a:hover { color: var(--red-bright); }
 /* FAQ */
 .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: var(--spacing-xl); }
 .faq-item { padding: var(--spacing-xl); border-left: 4px solid var(--red-bright); }
-.faq-item h4 { color: #fff; margin-bottom: var(--spacing-sm); }
-.faq-item p { color: var(--muted); margin: 0; font-size: .95rem; }
+.faq-item h4 { color: #fff; margin-bottom: 0; display: inline; }
+.faq-item p { color: var(--muted); margin: var(--spacing-sm) 0 0; font-size: .95rem; }
+
+/* Accordion behavior (native <details>, accessible & keyboard-friendly) */
+details.faq-item summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: var(--spacing-sm); }
+details.faq-item summary::-webkit-details-marker { display: none; }
+details.faq-item summary::after { content: '+'; font-size: 1.3rem; color: var(--gold); flex-shrink: 0; line-height: 1; }
+details.faq-item[open] summary::after { content: '\2212'; }
+details.faq-item summary:hover h4 { color: var(--gold); }
+
+/* Honeypot field — visually removed, still present for bots */
+.hp-field { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; overflow: hidden; }
 
 /* CTA + signup */
 .cta-final {

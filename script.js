@@ -3,7 +3,7 @@
 // ============================================
 
 // Scroll to section
-function scrollTo(selector) {
+function scrollToSection(selector) {
     const element = document.querySelector(selector);
     if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
@@ -47,6 +47,11 @@ function copyApiKey() {
 function handleSignup(event) {
     event.preventDefault();
 
+    var notes = val('notes');
+    if (selectedPlan) {
+        notes = (notes ? notes + '\n\n' : '') + '[Clicked plan: ' + selectedPlan + ']';
+    }
+
     var payload = {
         shop_name: val('shopName'),
         contact_email: val('email'),
@@ -61,7 +66,8 @@ function handleSignup(event) {
         needs_online_ordering: checked('needsOnlineOrdering'),
         brand_vibe: val('brandVibe'),
         domain: val('domain'),
-        notes: val('notes')
+        notes: notes,
+        website: val('hpWebsite')  // honeypot
     };
 
     var btn = event.target.querySelector('button[type="submit"]');
@@ -78,6 +84,7 @@ function handleSignup(event) {
             return data;
         })
         .then(function (data) {
+            clearDraft();
             showConfirmation(payload.shop_name, payload.contact_email, data.api_key);
         })
         .catch(function (err) {
@@ -92,8 +99,58 @@ function contactSales() {
     window.location.href = 'mailto:rogueintelligenceso@gmail.com?subject=Backroom%20Multi-Location%20Inquiry';
 }
 
+// Plan buttons: remember which plan the visitor clicked (recorded with signup)
+var selectedPlan = '';
+function selectPlan(plan) {
+    selectedPlan = plan;
+    scrollToSection('#cta');
+    var input = document.getElementById('shopName');
+    if (input) { setTimeout(function () { input.focus({ preventScroll: true }); }, 600); }
+}
+
+// ============================================
+// DRAFT AUTOSAVE — the intake form is long; don't let a reload eat it
+// ============================================
+var DRAFT_KEY = 'backroom-intake-draft';
+var DRAFT_FIELDS = ['shopName', 'ownerName', 'email', 'phone', 'location', 'currentWebsite',
+                    'productsSold', 'catalogSize', 'fulfillment', 'brandVibe', 'domain', 'notes'];
+var DRAFT_CHECKS = ['sellsNicotine', 'needsOnlineOrdering'];
+
+function saveDraft() {
+    try {
+        var draft = {};
+        DRAFT_FIELDS.forEach(function (id) { draft[id] = val(id); });
+        DRAFT_CHECKS.forEach(function (id) { draft[id] = checked(id); });
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    } catch (e) { /* storage unavailable — skip silently */ }
+}
+
+function restoreDraft() {
+    try {
+        var raw = localStorage.getItem(DRAFT_KEY);
+        if (!raw) return;
+        var draft = JSON.parse(raw);
+        DRAFT_FIELDS.forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el && draft[id]) { el.value = draft[id]; }
+        });
+        DRAFT_CHECKS.forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el && draft[id]) { el.checked = true; }
+        });
+    } catch (e) { /* corrupt draft — ignore */ }
+}
+
+function clearDraft() {
+    try { localStorage.removeItem(DRAFT_KEY); } catch (e) { /* ignore */ }
+}
+
 // Add scroll animation for elements
 function setupScrollAnimations() {
+    // Respect the visitor's reduced-motion preference
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -150,6 +207,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Track form interactions
     const form = document.getElementById('signupForm');
+    if (form) {
+        // Restore any unfinished intake and autosave as the visitor types
+        restoreDraft();
+        form.addEventListener('input', saveDraft);
+        form.addEventListener('change', saveDraft);
+    }
     if (form) {
         const inputs = form.querySelectorAll('input');
         inputs.forEach(input => {
@@ -264,12 +327,12 @@ document.addEventListener('keydown', (e) => {
     
     // Press p for pricing
     if (e.key === 'p' && e.ctrlKey === false && e.metaKey === false) {
-        scrollTo('#pricing');
+        scrollToSection('#pricing');
     }
     
     // Press f for features
     if (e.key === 'f' && e.ctrlKey === false && e.metaKey === false) {
-        scrollTo('#features');
+        scrollToSection('#features');
     }
 });
 

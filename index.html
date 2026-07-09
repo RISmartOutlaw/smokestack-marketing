@@ -104,7 +104,7 @@
             <p class="hero-subtitle">Stop spreadsheets. Stop overstocking. Stop losing sales to "out of stock."</p>
             <p class="hero-desc">Backroom is a simple, affordable inventory &amp; order engine built for vape shops, smoke shops, and alternative retail. Deploy in minutes. Start tracking in hours. Own your data forever.</p>
             <div class="hero-cta">
-                <button class="btn btn-primary" onclick="scrollTo('#cta')">Get Started Free</button>
+                <button class="btn btn-primary" onclick="scrollToSection('#cta')">Get Started Free</button>
                 <a href="https://smokestacksite.outlawsmokevape.com/docs" class="btn btn-secondary">View API Docs</a>
             </div>
             <div class="hero-stats">
@@ -235,7 +235,7 @@
                     <li>&#10003; Docs &amp; email support</li>
                     <li>&#10003; Export anytime &bull; no lock-in</li>
                 </ul>
-                <button class="btn btn-outline" onclick="scrollTo('#cta')">Get Started</button>
+                <button class="btn btn-outline" onclick="selectPlan('Self-Serve')">Get Started</button>
             </div>
             <div class="price-card featured">
                 <div class="badge">Most Popular</div>
@@ -250,7 +250,7 @@
                     <li>&#10003; Priority support</li>
                     <li>&#10003; One-time setup from $299</li>
                 </ul>
-                <button class="btn btn-primary" onclick="scrollTo('#cta')">Start My Build</button>
+                <button class="btn btn-primary" onclick="selectPlan('Done-For-You')">Start My Build</button>
                 <p class="price-note">Tell us about your shop below &mdash; we'll send a quote.</p>
             </div>
             <div class="price-card">
@@ -323,15 +323,15 @@
     <div class="container">
         <h2>Frequently Asked Questions</h2>
         <div class="faq-grid">
-            <div class="faq-item"><h4>How is this different from Shopify/Square?</h4><p>Backroom is API-first and built specifically for alternative retail inventory management. Shopify and Square are generic POS systems. We're far cheaper (from $49.99/mo vs $99+/mo), faster to set up, and you own your data.</p></div>
-            <div class="faq-item"><h4>Can I export my data?</h4><p>Yes, completely. Export all products, orders, inventory data anytime in CSV format. You can switch providers, self-host, or integrate elsewhere. Zero lock-in.</p></div>
-            <div class="faq-item"><h4>Do I have to build it myself?</h4><p>No. On <strong>Self-Serve ($49.99/mo)</strong> you get the API + build kit and run it with your own Claude. On <strong>Done-For-You ($99/mo + setup)</strong> we build and maintain the whole site for you — just fill out the intake below.</p></div>
-            <div class="faq-item"><h4>Can I use this with Shopify?</h4><p>Yes! Backroom integrates with Shopify via webhook. Create order on Shopify → Backroom auto-deducts inventory → your stock stays in sync. Setup takes 10 minutes.</p></div>
-            <div class="faq-item"><h4>What about security?</h4><p>API key authentication, SQL injection protected (ORM), HTTPS everywhere, encrypted database, daily backups. Enterprise-grade security at an indie price.</p></div>
-            <div class="faq-item"><h4>Can I host this myself?</h4><p>Yes! Backroom can deploy on your own servers (Railway, DigitalOcean, AWS, etc.). Some owners prefer full control.</p></div>
-            <div class="faq-item"><h4>What about age verification / compliance?</h4><p>Backroom tracks inventory; compliance stays your responsibility. Tell us in the intake if you sell nicotine/tobacco and we'll wire the 21+ age gate and warnings into your storefront.</p></div>
-            <div class="faq-item"><h4>Can I cancel anytime?</h4><p>Absolutely. No contract. No long-term commitment. Month-to-month only. Cancel anytime. Your data stays yours.</p></div>
-            <div class="faq-item"><h4>How do I integrate with my POS system?</h4><p>Backroom has 17 REST API endpoints. If your POS supports webhooks or HTTP requests, it can talk to Backroom. We have integration guides for popular systems.</p></div>
+            <details class="faq-item"><summary><h4>How is this different from Shopify/Square?</h4></summary><p>Backroom is API-first and built specifically for alternative retail inventory management. Shopify and Square are generic POS systems. We're far cheaper (from $49.99/mo vs $99+/mo), faster to set up, and you own your data.</p></details>
+            <details class="faq-item"><summary><h4>Can I export my data?</h4></summary><p>Yes, completely. Export all products, orders, inventory data anytime in CSV format. You can switch providers, self-host, or integrate elsewhere. Zero lock-in.</p></details>
+            <details class="faq-item"><summary><h4>Do I have to build it myself?</h4></summary><p>No. On <strong>Self-Serve ($49.99/mo)</strong> you get the API + build kit and run it with your own Claude. On <strong>Done-For-You ($99/mo + setup)</strong> we build and maintain the whole site for you — just fill out the intake below.</p></details>
+            <details class="faq-item"><summary><h4>Can I use this with Shopify?</h4></summary><p>Yes! Backroom integrates with Shopify via webhook. Create order on Shopify → Backroom auto-deducts inventory → your stock stays in sync. Setup takes 10 minutes.</p></details>
+            <details class="faq-item"><summary><h4>What about security?</h4></summary><p>API key authentication, SQL injection protected (ORM), HTTPS everywhere, encrypted database, daily backups. Enterprise-grade security at an indie price.</p></details>
+            <details class="faq-item"><summary><h4>Can I host this myself?</h4></summary><p>Yes! Backroom can deploy on your own servers (Railway, DigitalOcean, AWS, etc.). Some owners prefer full control.</p></details>
+            <details class="faq-item"><summary><h4>What about age verification / compliance?</h4></summary><p>Backroom tracks inventory; compliance stays your responsibility. Tell us in the intake if you sell nicotine/tobacco and we'll wire the 21+ age gate and warnings into your storefront.</p></details>
+            <details class="faq-item"><summary><h4>Can I cancel anytime?</h4></summary><p>Absolutely. No contract. No long-term commitment. Month-to-month only. Cancel anytime. Your data stays yours.</p></details>
+            <details class="faq-item"><summary><h4>How do I integrate with my POS system?</h4></summary><p>Backroom has 17 REST API endpoints. If your POS supports webhooks or HTTP requests, it can talk to Backroom. We have integration guides for popular systems.</p></details>
         </div>
     </div>
 </section>
@@ -343,6 +343,11 @@
         <p>Tell us about your shop. We'll set up your storefront and back-office, then email you to kick it off.</p>
 
         <form class="signup-form" id="signupForm" onsubmit="handleSignup(event)">
+            <!-- Honeypot: hidden from humans, bots fill it and get silently dropped -->
+            <div class="hp-field" aria-hidden="true">
+                <label for="hpWebsite">Website</label>
+                <input type="text" id="hpWebsite" name="website" tabindex="-1" autocomplete="off">
+            </div>
             <div class="form-section-label">Your shop</div>
             <div class="form-row">
                 <div class="form-group">

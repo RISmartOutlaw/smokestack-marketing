@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews | Backroom</title>
+    <meta name="description" content="Reviews from shops running on Backroom. Anyone can read them; Backroom customers can post with their API key.">
+    <link rel="canonical" href="https://smokestack.outlawsmokevape.com/reviews.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Backroom">
+    <meta property="og:title" content="Customer Reviews | Backroom">
+    <meta property="og:description" content="Reviews from shops running on Backroom.">
+    <meta property="og:url" content="https://smokestack.outlawsmokevape.com/reviews.html">
+    <meta property="og:image" content="https://smokestack.outlawsmokevape.com/og-image.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-brand">
+            <a href="index.html" style="text-decoration:none;"><span class="logo">Backroom</span></a>
+            <span class="tagline">Back-office for the counter</span>
+        </div>
+        <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" onclick="toggleMobileMenu()">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="reviews.html" class="active">Reviews</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="index.html#cta" class="btn-nav">Get Started</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="reviews-hero">
+    <div class="container">
+        <h1>What Shops Say About <span class="gold">Backroom</span></h1>
+        <p class="section-subtitle">Anyone can read the reviews. Verified customers can write them.</p>
+    </div>
+</section>
+
+<section class="reviews-live">
+    <div class="container">
+        <div id="reviewsList" class="reviews-list"><p class="reviews-loading">Loading reviews&hellip;</p></div>
+
+        <div class="review-form-wrap">
+            <h3>Run your shop on Backroom? Leave a review</h3>
+            <p class="review-hint">Log in with the <strong>API key</strong> you received at signup — that's your customer credential.</p>
+            <form id="reviewForm" onsubmit="submitReview(event)">
+                <div class="hp-field" aria-hidden="true">
+                    <label for="rvHp">Website</label>
+                    <input type="text" id="rvHp" name="website" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="form-group full"><input type="password" name="api_key" placeholder="Your Backroom API key" aria-label="Your Backroom API key" required autocomplete="off"></div>
+                <div class="form-group full"><input type="text" name="author_name" placeholder="Display name (e.g. Marcus T., Smoke Shop, Las Vegas)" aria-label="Display name" required></div>
+                <div class="form-group full rating-group" role="radiogroup" aria-label="Rating">
+                    <span class="rating-label">Rating:</span>
+                    <div class="star-input" id="starInput">
+                        <button type="button" data-v="1" aria-label="1 star">&#9733;</button>
+                        <button type="button" data-v="2" aria-label="2 stars">&#9733;</button>
+                        <button type="button" data-v="3" aria-label="3 stars">&#9733;</button>
+                        <button type="button" data-v="4" aria-label="4 stars">&#9733;</button>
+                        <button type="button" data-v="5" aria-label="5 stars">&#9733;</button>
+                    </div>
+                    <input type="hidden" name="rating" value="5">
+                </div>
+                <div class="form-group full"><textarea name="text" placeholder="How has Backroom worked for your shop?" aria-label="Your review" required minlength="5"></textarea></div>
+                <button type="submit" class="btn btn-primary">Post Review</button>
+                <p class="form-status" id="reviewStatus" role="status" aria-live="polite"></p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Backroom</h4>
+                <p>The back-office behind your counter.</p>
+                <p class="footer-contact"><a href="mailto:rogueintelligenceso@gmail.com" class="footer-contact">rogueintelligenceso@gmail.com</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="https://smokestacksite.outlawsmokevape.com/docs">API Docs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Built for</h4>
+                <p>Vape shops &bull; Smoke shops &bull; Alternative retail</p>
+                <p><small>By Rogue Intelligence</small></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Backroom by Rogue Intelligence. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="reviews.js"></script>
+</body>
+</html>

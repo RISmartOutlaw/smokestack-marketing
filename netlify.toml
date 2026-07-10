@@ -2,10 +2,16 @@
   publish = "."
   command = "echo 'No build required'"
 
+# Single-page site: send unknown paths back to the homepage.
+# Real files (robots.txt, sitemap.xml, og-image.png, ...) are served first.
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-[context.production]
-  environment = { NODE_ENV = "production" }
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

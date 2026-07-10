@@ -16,6 +16,8 @@ Landing page for **Backroom** — the back-office behind your counter. Inventory
 | `script.js` | Signup form → `/signup` API, mobile menu, scroll effects |
 | `favicon.svg` | Browser tab icon |
 | `og-image.png` | Social link preview card (1200×630) |
+| `robots.txt` | Crawler rules + sitemap pointer |
+| `sitemap.xml` | Sitemap for search engines |
 | `CNAME` | Custom domain for GitHub Pages |
 | `netlify.toml` | Netlify config (alternative host) |
 | `QUICK_START.md` | How to update and deploy the site |

@@ -2,8 +2,13 @@
   publish = "."
   command = "echo 'No build required'"
 
+[functions]
+  directory = "netlify/functions"
+
 # Single-page site: send unknown paths back to the homepage.
 # Real files (robots.txt, sitemap.xml, og-image.png, ...) are served first.
+# Netlify serves /.netlify/functions/* before this catch-all applies, so no
+# redirect entry is needed for the functions above.
 [[redirects]]
   from = "/*"
   to = "/index.html"

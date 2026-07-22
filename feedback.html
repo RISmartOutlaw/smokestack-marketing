@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How did we do? | Backroom</title>
+    <meta name="description" content="Tell us about your experience with Backroom. Quick 1-5 star rating, private feedback for anything less than perfect.">
+    <link rel="canonical" href="https://smokestack.outlawsmokevape.com/feedback.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Backroom">
+    <meta property="og:title" content="How did we do? | Backroom">
+    <meta property="og:description" content="Tell us about your experience with Backroom.">
+    <meta property="og:url" content="https://smokestack.outlawsmokevape.com/feedback.html">
+    <meta property="og:image" content="https://smokestack.outlawsmokevape.com/og-image.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-brand">
+            <a href="index.html" style="text-decoration:none;"><span class="logo">Backroom</span></a>
+            <span class="tagline">Back-office for the counter</span>
+        </div>
+        <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" onclick="toggleMobileMenu()">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="reviews.html">Reviews</a></li>
+            <li><a href="feedback.html" class="active">Leave Feedback</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="index.html#cta" class="btn-nav">Get Started</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="reviews-hero">
+    <div class="container">
+        <h1>How Did We Do<span class="gold">?</span></h1>
+        <p class="section-subtitle">Takes ten seconds. Tell us how your experience with Backroom went.</p>
+    </div>
+</section>
+
+<section class="reviews-live">
+    <div class="container">
+
+        <div class="fb-card" id="fbPromptCard">
+            <h3>How was your experience?</h3>
+            <div class="star-input fb-stars" id="fbStars" role="radiogroup" aria-label="Rate your experience, 1 to 5 stars">
+                <button type="button" data-v="1" aria-label="1 star">&#9733;</button>
+                <button type="button" data-v="2" aria-label="2 stars">&#9733;</button>
+                <button type="button" data-v="3" aria-label="3 stars">&#9733;</button>
+                <button type="button" data-v="4" aria-label="4 stars">&#9733;</button>
+                <button type="button" data-v="5" aria-label="5 stars">&#9733;</button>
+            </div>
+            <p class="fb-prompt-status" id="fbPromptStatus" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="fb-card" id="fbFormWrap" hidden>
+            <h3>Thanks for letting us know</h3>
+            <p class="review-hint">Your rating stays private. Tell us what happened so we can make it right.</p>
+
+            <p class="fb-public-link">
+                Prefer to post publicly?
+                <a href="#" id="fbGoogleLink" target="_blank" rel="noopener">Leave a Google review</a>
+            </p>
+
+            <form id="fbForm">
+                <div class="hp-field" aria-hidden="true">
+                    <label for="fbHp">Website</label>
+                    <input type="text" id="fbHp" name="website" tabindex="-1" autocomplete="off">
+                </div>
+                <input type="hidden" id="fbRating" name="rating" value="">
+
+                <div class="form-group full">
+                    <label for="fbComment">What happened? <span class="req">*</span></label>
+                    <textarea id="fbComment" name="comment" placeholder="Tell us what went wrong (or right) so we can improve" required minlength="5" maxlength="2000"></textarea>
+                </div>
+                <div class="form-group full">
+                    <label for="fbName">Name (optional)</label>
+                    <input type="text" id="fbName" name="name" placeholder="Your name" autocomplete="name">
+                </div>
+                <div class="form-group full">
+                    <label for="fbEmail">Email (optional)</label>
+                    <input type="email" id="fbEmail" name="email" placeholder="you@example.com" autocomplete="email">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                <p class="form-status" id="fbStatus" role="status" aria-live="polite"></p>
+            </form>
+        </div>
+
+        <div class="fb-card" id="fbThanks" hidden>
+            <h3>Thank you</h3>
+            <p id="fbThanksText">Thank you &mdash; your feedback goes straight to our team.</p>
+        </div>
+
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Backroom</h4>
+                <p>The back-office behind your counter.</p>
+                <p class="footer-contact"><a href="mailto:rogueintelligenceso@gmail.com" class="footer-contact">rogueintelligenceso@gmail.com</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="https://smokestacksite.outlawsmokevape.com/docs">API Docs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Built for</h4>
+                <p>Vape shops &bull; Smoke shops &bull; Alternative retail</p>
+                <p><small>By Rogue Intelligence</small></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Backroom by Rogue Intelligence. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="review-config.js"></script>
+<script src="feedback.js"></script>
+</body>
+</html>
